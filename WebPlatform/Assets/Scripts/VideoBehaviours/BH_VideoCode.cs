@@ -19,6 +19,7 @@ public class BH_VideoCode : BH_Video
     public struct VideoCodeMarker
     {
         public float StopTimestamp;
+        public string CodeBlockText;
 
         [TextArea(3, 10)]
         public string InitialCode;
@@ -27,6 +28,8 @@ public class BH_VideoCode : BH_Video
     public VideoCodeMarker[] mCodeMarkers;
     private uint mQuizMarkerID;
     private bool mAllMarkersCompleted;
+
+    public TMP_Text mCodeblockText;
 
     // Start is called before the first frame update
     protected override void Start()
@@ -48,21 +51,6 @@ public class BH_VideoCode : BH_Video
         mBackButton.onClick.RemoveAllListeners();
     }
 
-    public void OnGoBack()
-    {
-        Debug.Log("Video went back 1");
-        mCodePanel.SetActive(false);
-
-        if (mQuizMarkerID == 0)
-        {
-            SetClipWithTime(0.0f);
-        }
-        else
-        {
-            SetClipWithTime(mCodeMarkers[mQuizMarkerID - 1].StopTimestamp + 0.1f);
-        }
-
-    }
 
     // Update is called once per frame
     protected override void Update()
@@ -74,7 +62,25 @@ public class BH_VideoCode : BH_Video
             Debug.Log("Marker reached, video time " + mVideoPlayer.time);
             mVideoPlayer.Pause();
             mCodePanel.SetActive(true);
+            mVideoDisplay.SetActive(false);
             mCodeInputField.text = mCodeMarkers[mQuizMarkerID].InitialCode;
+            mCodeblockText.text = mCodeMarkers[mQuizMarkerID].CodeBlockText;
+        }
+    }
+
+    public void OnGoBack()
+    {
+        Debug.Log("Video went back 1");
+        mCodePanel.SetActive(false);
+        mVideoDisplay.SetActive(true);
+
+        if (mQuizMarkerID == 0)
+        {
+            SetClipWithTime(0.0f);
+        }
+        else
+        {
+            SetClipWithTime(mCodeMarkers[mQuizMarkerID - 1].StopTimestamp + 0.1f);
         }
     }
 
@@ -105,6 +111,7 @@ public class BH_VideoCode : BH_Video
     public void OnCompileCode()
     {
         mCodePanel.SetActive(false);
+        mVideoDisplay.SetActive(true);
         mVideoPlayer.Play();
 
         mQuizMarkerID++;

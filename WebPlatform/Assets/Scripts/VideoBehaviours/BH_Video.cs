@@ -11,6 +11,7 @@ public class BH_Video : MonoBehaviour
 	public GameObject mVideoDisplay;
 	public string mVideoURL;
 	public string mVideoDescription;
+	public string mVideoFinishedDescription;	
 
 	public Button mPlayButton;
 	private BH_CourseVideoManager CourseManager;

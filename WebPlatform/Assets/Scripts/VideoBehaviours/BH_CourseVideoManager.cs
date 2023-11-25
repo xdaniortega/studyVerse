@@ -17,6 +17,7 @@ public class BH_CourseVideoManager : MonoBehaviour
     public GameObject mCourseDescriptionPanel;
     public GameObject mInitialCoursePanel;
     public GameObject mLeadboardPanel;
+    public TMPro.TMP_Text mCompletedVideoText;
     //public TMPro.TMP_Text mNextVideoText;
 
     // Start is called before the first frame update
@@ -71,6 +72,7 @@ public class BH_CourseVideoManager : MonoBehaviour
 
         //Show next video screen
         mCompletedCoursePanel.SetActive(true);
+        mCompletedVideoText.text = mCourseVideos[mActiveVideo].mVideoFinishedDescription;
         //NextVideo();
     }
 

@@ -28,6 +28,9 @@ public class BH_VideoQuiz : BH_Video
 	public Button[] mButtons;
 	public TMP_Text mQuizTitle;
 
+	public Color CorrectColor;
+	public Color WrongColor;
+
 
 
 	// Start is called before the first frame update
@@ -54,6 +57,7 @@ public class BH_VideoQuiz : BH_Video
 
 			mQuizTitle.text = mQuizMarkers[mQuizMarkerID].mQuestion;
 			mQuizPanel.SetActive(true);
+			mVideoDisplay.SetActive(false);
 			for (int i = 0; i < mButtons.Length; ++i)
 			{
 				mButtons[i].GetComponentInChildren<TMP_Text>().text = Answers[i];
@@ -66,7 +70,40 @@ public class BH_VideoQuiz : BH_Video
 	public void CheckAnswer(string aInput)
 	{
 		Debug.Log("Answer: " + aInput);
-		AnswerCompleted();
+		StartCoroutine(AnimateSelectedAnswer(aInput));
+	}
+
+	IEnumerator AnimateSelectedAnswer(string aAnswer)
+    {
+		Button aPressedButton = null;
+		Color colorToUse = WrongColor;
+        foreach (Button button in mButtons)
+        {
+			if(button.GetComponentInChildren<TMP_Text>().text == aAnswer)
+            {
+				aPressedButton = button;
+				if(aAnswer == mQuizMarkers[mQuizMarkerID].mCorrectAnswer)
+                {
+					colorToUse = CorrectColor;
+                }
+				break;
+			}
+        }
+
+		Image buttonImage = aPressedButton.GetComponent<Image>();
+		Color oldColor = buttonImage.color;
+		aPressedButton.GetComponent<Image>().color = colorToUse;
+		yield return new WaitForSecondsRealtime(3);
+		aPressedButton.GetComponent<Image>().color = oldColor;
+
+		if(colorToUse == WrongColor)
+        {
+			OnGoBack();
+        }
+		else
+        {
+			AnswerCompleted();
+		}
 	}
 
 	public void AnswerCompleted()
@@ -77,6 +114,7 @@ public class BH_VideoQuiz : BH_Video
 		}
 		mQuizPanel.SetActive(false);
 		mVideoPlayer.Play();
+		mVideoDisplay.SetActive(true);
 
 		mQuizMarkerID++;
 		if(mQuizMarkerID >= mQuizMarkers.Length)
@@ -96,5 +134,45 @@ public class BH_VideoQuiz : BH_Video
 			list[k] = list[n];
 			list[n] = value;
 		}
+	}
+
+	public void OnGoBack()
+	{
+		Debug.Log("Video went back 1");
+		mQuizPanel.SetActive(false);
+		mVideoDisplay.SetActive(true);
+
+		if (mQuizMarkerID == 0)
+		{
+			SetClipWithTime(0.0f);
+		}
+		else
+		{
+			SetClipWithTime(mQuizMarkers[mQuizMarkerID - 1].mStopTimestamp + 0.1f);
+		}
+	}
+
+	public void SetClipWithTime(float time)
+	{
+		StartCoroutine(SetTimeRoutine(time));
+	}
+
+
+	IEnumerator SetTimeRoutine(float time)
+	{
+		mAllMarkersCompleted = true;
+
+		mVideoPlayer.Prepare();
+		yield return new WaitUntil(() => mVideoPlayer.isPrepared);
+		yield return new WaitUntil(() => mVideoPlayer.canSetTime);
+
+		mVideoPlayer.Play();
+		yield return new WaitUntil(() => mVideoPlayer.isPlaying);
+		mVideoPlayer.time = time;
+		yield return new WaitUntil(() => mVideoPlayer.isPrepared);
+		yield return new WaitUntil(() => mVideoPlayer.isPlaying);
+		yield return new WaitForSecondsRealtime(1);
+
+		mAllMarkersCompleted = false;
 	}
 }
