@@ -4,7 +4,6 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Video;
-using static Unity.VisualScripting.Member;
 
 public class BH_Video : MonoBehaviour
 {
@@ -47,6 +46,7 @@ public class BH_Video : MonoBehaviour
 
 	public void StartVideo()
 	{
+		Debug.Log("Video started with start button");
 		mVideoPlayer.Play();
 		mPlayButton.gameObject.SetActive(false);
 		mVideoDisplay.SetActive(true);

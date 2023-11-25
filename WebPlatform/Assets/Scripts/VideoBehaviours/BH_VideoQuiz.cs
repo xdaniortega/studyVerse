@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -61,8 +60,6 @@ public class BH_VideoQuiz : BH_Video
 				string Test = Answers[i];
 				mButtons[i].onClick.AddListener(() => CheckAnswer(Test));
 			}
-
-			//todo: When the question is completed play and increment mQuizMarkerID
 		}
     }
 
