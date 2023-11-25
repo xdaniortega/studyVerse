@@ -62,7 +62,7 @@ public class BH_Video : MonoBehaviour
 		Debug.Log("Video started with start button");
 		mVideoPlayer.Play();
 		mPlayButton.transform.parent.gameObject.SetActive(false);
-		mPlayButton.gameObject.SetActive(false);
+		//mPlayButton.gameObject.SetActive(false);
 		mVideoDisplay.SetActive(true);
 	}
 }

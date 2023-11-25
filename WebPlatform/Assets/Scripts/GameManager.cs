@@ -18,6 +18,8 @@ public class GameManager : MonoBehaviour
 	public delegate void OnStateChanged(in eGameStates aNewState);
 	public event OnStateChanged mStateChanged;
 
+	public string mPlayerID;
+
 	private void Awake()
 	{
 		// If there is an instance, and it's not me, delete myself.
@@ -29,6 +31,7 @@ public class GameManager : MonoBehaviour
 		else
 		{
 			Instance = this;
+			mPlayerID = string.Empty;
 			DontDestroyOnLoad(this.gameObject);
 		}
 	}

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Video;
+using UnityEngine.SceneManagement;
 
 public class BH_CourseVideoManager : MonoBehaviour
 {
@@ -77,5 +78,10 @@ public class BH_CourseVideoManager : MonoBehaviour
     {
         NextVideo();
         mCompletedCoursePanel.SetActive(false);
+    }
+
+    public void FinishCourse()
+    {
+        SceneManager.LoadScene("SampleScene", LoadSceneMode.Single);
     }
 }

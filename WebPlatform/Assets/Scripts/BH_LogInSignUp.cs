@@ -33,9 +33,18 @@ public class BH_LogInSignUp : MonoBehaviour
 	// Start is called before the first frame update
 	void Awake()
     {
-		GameManager.Instance.mStateChanged += OnStateChanged;
-		mBlurMaterial.SetFloat("_xBlur", mBlurInitValue);
-		mBlurMaterial.SetFloat("_yBlur", mBlurInitValue);
+		if(GameManager.Instance.mGameState == GameManager.eGameStates.Initializing /*|| string.IsNullOrEmpty(GameManager.Instance.mPlayerID)*/)
+        {
+			GameManager.Instance.mStateChanged += OnStateChanged;
+			mBlurMaterial.SetFloat("_xBlur", mBlurInitValue);
+			mBlurMaterial.SetFloat("_yBlur", mBlurInitValue);
+        }
+		else
+        {
+			this.gameObject.SetActive(false);
+			mBlurMaterial.SetFloat("_xBlur", 0.0f);
+			mBlurMaterial.SetFloat("_yBlur", 0.0f);
+		}
     }
 
 	private void OnDestroy()
@@ -74,6 +83,7 @@ public class BH_LogInSignUp : MonoBehaviour
 			{
 				Debug.Log("Request complete! Response: " + www.downloadHandler.text);
 				Debug.Log("Login completed");
+				//GameManager.Instance.mPlayerID = 
 				GameManager.Instance.ChangeGameState(GameManager.eGameStates.Logged);
 			}
 		}
