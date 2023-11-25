@@ -458,6 +458,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mDestinationPoint: {fileID: 59637540}
   mSceneToLoad: SC_Llados2
+  mActiveGameObject: {fileID: 0}
 --- !u!1001 &111768926
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -810,7 +811,7 @@ MonoBehaviour:
   m_CaretColor: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
   m_CustomCaretColor: 0
   m_SelectionColor: {r: 0.65882355, g: 0.80784315, b: 1, a: 0.7529412}
-  m_Text: 
+  m_Text: test
   m_CaretBlinkRate: 0.85
   m_CaretWidth: 1
   m_ReadOnly: 0
@@ -835,7 +836,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.21568629, g: 0.31764707, b: 0.45098042, a: 1}
+  m_Color: {r: 0.22352943, g: 0.31764707, b: 0.45098042, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -1584,7 +1585,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\u200B"
+  m_text: "****\u200B"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -3924,7 +3925,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\u200B"
+  m_text: "test@example.com\u200B"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -4142,7 +4143,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1460204241}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
   m_Name: 
@@ -4373,7 +4374,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1587633559}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
   m_Name: 
@@ -4897,6 +4898,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mBlurMaterial: {fileID: 2100000, guid: 6de779336ed4ead4f82286c7d7d44b07, type: 2}
   mBlurInitValue: 0.015
+  mEmailInput: {fileID: 2035737520}
+  mPasswordInput: {fileID: 222150005}
 --- !u!1 &1864255748 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8944101314170354991, guid: 7e5eca6f7055947cb83a63e91c8a6b8f,
@@ -5213,6 +5216,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mDestinationPoint: {fileID: 1327990771}
   mSceneToLoad: SC_Llados1
+  mActiveGameObject: {fileID: 0}
 --- !u!1 &2035737518
 GameObject:
   m_ObjectHideFlags: 0
@@ -5339,7 +5343,7 @@ MonoBehaviour:
   m_CaretColor: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
   m_CustomCaretColor: 0
   m_SelectionColor: {r: 0.65882355, g: 0.80784315, b: 1, a: 0.7529412}
-  m_Text: 
+  m_Text: test@example.com
   m_CaretBlinkRate: 0.85
   m_CaretWidth: 1
   m_ReadOnly: 0

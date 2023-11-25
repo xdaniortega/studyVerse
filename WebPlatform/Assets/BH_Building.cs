@@ -25,12 +25,14 @@ public class BH_Building : MonoBehaviour
 
     public void OnPathLoadScene(in string aSceneToLoad)
 	{
-
         SceneManager.LoadScene(aSceneToLoad, LoadSceneMode.Single);
 	}
 
-    public void OnPathActiveGameObject()
+    public void OnPathActiveGameObject(in string aSceneToLoad)
     {
-
+        if(mActiveGameObject != null)
+        {
+            mActiveGameObject.SetActive(true);
+        }
     }
 }

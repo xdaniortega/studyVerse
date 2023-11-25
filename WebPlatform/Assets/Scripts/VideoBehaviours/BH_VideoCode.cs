@@ -41,8 +41,10 @@ public class BH_VideoCode : BH_Video
         //todo: Add check callback to remove points
     }
 
-    private void OnDestroy()
+    protected override void OnDisable()
     {
+        base.OnDisable();
+        Debug.Log("Video code disabled");
         mBackButton.onClick.RemoveAllListeners();
     }
 

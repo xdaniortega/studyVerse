@@ -25,10 +25,7 @@ public class BH_PlayerMovement : MonoBehaviour
 		if(GameManager.Instance)
         {
 			GameManager.Instance.mStateChanged += OnStateChanged;
-        }
-		else
-        {
-			mEnableMovement = true;
+			mEnableMovement = GameManager.Instance.mGameState == GameManager.eGameStates.Logged;
         }
 
 		// Ensure that NavMeshAgent is not null
@@ -68,9 +65,17 @@ public class BH_PlayerMovement : MonoBehaviour
 						BH_Building DestChildren = hit.transform.gameObject.GetComponent<BH_Building>();
 						if(DestChildren != null)
 						{
-							mSceneToLoad = DestChildren.mSceneToLoad;				
 							navMeshAgent.SetDestination(DestChildren.mDestinationPoint.transform.position);
-							OnPathCompleted = TestLog;
+
+							if(!string.IsNullOrEmpty(DestChildren.mSceneToLoad))
+                            {
+								mSceneToLoad = DestChildren.mSceneToLoad;
+								OnPathCompleted = DestChildren.OnPathLoadScene;
+                            }
+							else if(DestChildren.mActiveGameObject != null)
+                            {
+								OnPathCompleted = DestChildren.OnPathActiveGameObject;
+                            }
 						}
 						else
 						{
@@ -83,6 +88,7 @@ public class BH_PlayerMovement : MonoBehaviour
 			if(OnPathCompleted != null && navMeshAgent.hasPath && navMeshAgent.remainingDistance <= navMeshAgent.stoppingDistance)
 			{
 				OnPathCompleted(mSceneToLoad);
+				mEnableMovement = false;
 				OnPathCompleted = null;
 			}
 		}
@@ -99,10 +105,5 @@ public class BH_PlayerMovement : MonoBehaviour
 				mEnableMovement	= false;
 				break;
 		}
-	}
-
-	public void TestLog(in string aSceneToLoad)
-	{
-		SceneManager.LoadScene(aSceneToLoad, LoadSceneMode.Single);
 	}
 }

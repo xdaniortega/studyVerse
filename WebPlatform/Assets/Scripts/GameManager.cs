@@ -29,6 +29,7 @@ public class GameManager : MonoBehaviour
 		else
 		{
 			Instance = this;
+			DontDestroyOnLoad(this.gameObject);
 		}
 	}
 
@@ -39,6 +40,7 @@ public class GameManager : MonoBehaviour
 
 	public void ChangeGameState(in eGameStates aNewState)
 	{
+		mGameState = aNewState;
 		if(mStateChanged != null)
 		{
 			mStateChanged(aNewState);

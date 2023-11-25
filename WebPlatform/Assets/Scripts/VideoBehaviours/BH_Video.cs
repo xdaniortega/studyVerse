@@ -10,25 +10,38 @@ public class BH_Video : MonoBehaviour
 	public VideoPlayer mVideoPlayer;
 	public GameObject mVideoDisplay;
 	public string mVideoURL;
+	public string mVideoDescription;
 
 	public Button mPlayButton;
+	private BH_CourseVideoManager CourseManager;
+
+	public void SetCourseManager(in BH_CourseVideoManager aInputManager)
+    {
+		CourseManager = aInputManager;
+    }
     // Start is called before the first frame update
     protected virtual void Start()
     {
-		mPlayButton.interactable = false;
-		mPlayButton.GetComponentInChildren<TMP_Text>().text = "LOADING...";
-		mPlayButton.gameObject.SetActive(true);
-		mVideoDisplay.SetActive(false);
 		mPlayButton.onClick.AddListener(() => StartVideo());
 
-
+		mVideoDisplay.SetActive(false);
+		mPlayButton.GetComponentInChildren<TMP_Text>().text = "LOADING...";
+		mPlayButton.interactable = false;
 
 		mVideoPlayer.playOnAwake = false;
 		mVideoPlayer.source = VideoSource.Url;
 		mVideoPlayer.url = mVideoURL;
 		mVideoPlayer.Prepare();
 		mVideoPlayer.prepareCompleted += OnVideoLoaded;
-		mVideoPlayer.loopPointReached += OnVideoFinished;
+		mVideoPlayer.loopPointReached += CourseManager.OnVideoFinished;
+	}
+
+	protected virtual void OnDisable()
+    {
+		Debug.Log("Video base disabled");
+		mVideoPlayer.prepareCompleted -= OnVideoLoaded;
+		mVideoPlayer.loopPointReached -= CourseManager.OnVideoFinished;
+		mPlayButton.onClick.RemoveAllListeners();
 	}
 
 	// Update is called once per frame
@@ -48,12 +61,8 @@ public class BH_Video : MonoBehaviour
 	{
 		Debug.Log("Video started with start button");
 		mVideoPlayer.Play();
+		mPlayButton.transform.parent.gameObject.SetActive(false);
 		mPlayButton.gameObject.SetActive(false);
 		mVideoDisplay.SetActive(true);
-	}
-
-	void OnVideoFinished(VideoPlayer source)
-	{
-		Debug.Log("Video finished");
 	}
 }
