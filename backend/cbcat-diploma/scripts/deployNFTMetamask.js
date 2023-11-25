@@ -3,7 +3,7 @@ const { hre } = require("hardhat");
 
 async function main() {
   const [deployer] = await ethers.getSigners();
-  const baseTokenURI = "ipfs://QmRhDhEfq1mFGMNev6yJiGV7G6zYv9yEsnx7bu4RPkBigV/";
+  const baseTokenURI = "ipfs://QmSS1ib6DB4smkz3NroEdMkzdnUhirWAnYQ6hWJmuETQ9K/";
 
   console.log("Deploying contracts with the account:", deployer.address);
 
