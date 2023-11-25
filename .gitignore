@@ -2,6 +2,7 @@
 #
 .env
 .DS_Store
+node_modules
 # Get latest from https://github.com/github/gitignore/blob/main/Unity.gitignore
 #
 /[Ll]ibrary/
