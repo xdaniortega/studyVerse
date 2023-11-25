@@ -1,0 +1,19 @@
+{
+  "description": "By Studyverse",
+  "image": "https://ipfs.io/ipfs/QmYkpAmwkiwKGTnqj3nyVngYYeeHRmRvDkiV71QpVSSaWq/metamaskBadge.png",
+  "name": "CBCAT CERTIFICATE #1",
+  "attributes": [
+    {
+      "trait_type": "GRADE",
+      "value": "10"
+    },
+    {
+      "COURSE": "INTRODUCTION TO METAMASK"
+    },
+    {
+      "display_type": "date", 
+      "trait_type": "ISSUE DATE", 
+      "value": 28348740
+    }
+  ]
+}

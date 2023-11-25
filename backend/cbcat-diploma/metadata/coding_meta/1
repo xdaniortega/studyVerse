@@ -1,0 +1,19 @@
+{
+  "description": "By Studyverse",
+  "image": "https://ipfs.io/ipfs/QmZLF6WnrR7Bw73Psqr7fymkKfAKBgpwGosPCwsgSsoRkL/programmingBadge.png",
+  "name": "CBCAT CERTIFICATE #2",
+  "attributes": [
+    {
+      "trait_type": "GRADE",
+      "value": "10"
+    },
+    {
+      "COURSE": "INTRODUCTION TO SOLIDITY"
+    },
+    {
+      "display_type": "date", 
+      "trait_type": "ISSUE DATE", 
+      "value": 28348740
+    }
+  ]
+}
