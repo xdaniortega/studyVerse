@@ -22,7 +22,14 @@ public class BH_PlayerMovement : MonoBehaviour
 		navMeshAgent = GetComponent<NavMeshAgent>();
 		mEnableMovement = false;
 
-		GameManager.Instance.mStateChanged += OnStateChanged;
+		if(GameManager.Instance)
+        {
+			GameManager.Instance.mStateChanged += OnStateChanged;
+        }
+		else
+        {
+			mEnableMovement = true;
+        }
 
 		// Ensure that NavMeshAgent is not null
 		if (navMeshAgent == null)
@@ -33,7 +40,10 @@ public class BH_PlayerMovement : MonoBehaviour
 
 	private void OnDestroy()
 	{
-		GameManager.Instance.mStateChanged -= OnStateChanged;
+		if (GameManager.Instance)
+		{
+			GameManager.Instance.mStateChanged -= OnStateChanged;
+		}
 	}
 
 	void Update()
