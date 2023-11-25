@@ -1,5 +1,5 @@
+// scripts/deployNFTMetamask.js
 require("@nomiclabs/hardhat-ethers");
-const { hre } = require("hardhat");
 
 async function main() {
   const [deployer] = await ethers.getSigners();

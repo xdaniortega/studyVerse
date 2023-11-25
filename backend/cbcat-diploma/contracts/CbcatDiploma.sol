@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: MIT
+//SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
 import "@openzeppelin/contracts/utils/Counters.sol";
@@ -6,21 +6,19 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/utils/math/SafeMath.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
 
-contract MetamaskDiploma is ERC721Enumerable {
+contract CbcatDiploma is ERC721Enumerable, Ownable {
   using SafeMath for uint256;
   using Counters for Counters.Counter;
 
   Counters.Counter private _tokenIds;
 
-  // uint public constant MAX_SUPPLY = 100;
+  //uint public constant MAX_SUPPLY = 100;
   uint public constant PRICE = 0.0 ether;
   uint public constant MAX_PER_MINT = 1;
 
   string public baseTokenURI;
 
-  constructor(
-    string memory baseURI
-  ) ERC721("MetamaskDiploma", "MetamaskDiploma") {
+  constructor(string memory baseURI) ERC721("CbcatDiploma", "CbcatDiploma") {
     setBaseURI(baseURI);
   }
 
@@ -28,14 +26,14 @@ contract MetamaskDiploma is ERC721Enumerable {
     return baseTokenURI;
   }
 
-  function setBaseURI(string memory _baseTokenURI) public {
+  function setBaseURI(string memory _baseTokenURI) public onlyOwner {
     baseTokenURI = _baseTokenURI;
   }
 
   function mintNFTs(uint _count) public payable {
     uint totalMinted = _tokenIds.current();
 
-    // require(totalMinted.add(_count) <= MAX_SUPPLY, "Not enough NFTs left!");
+    //require(totalMinted.add(_count) <= MAX_SUPPLY, "Not enough NFTs left!");
     require(
       _count > 0 && _count <= MAX_PER_MINT,
       "Cannot mint specified number of NFTs."
@@ -62,7 +60,7 @@ contract MetamaskDiploma is ERC721Enumerable {
     return tokensId;
   }
 
-  function withdraw() public payable {
+  function withdraw() public payable onlyOwner {
     uint balance = address(this).balance;
     require(balance > 0, "No ether left to withdraw");
 
@@ -71,4 +69,11 @@ contract MetamaskDiploma is ERC721Enumerable {
   }
 
   // INTERNAL FUNCTION TO MAKE IT SOULDBOUND
+  function _beforeTokenTransfer(
+    address from,
+    address to,
+    uint256 tokenId
+  ) internal virtual override {
+    require(from == address(0), "Err: token transfer is BLOCKED");
+  }
 }
