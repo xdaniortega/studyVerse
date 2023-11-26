@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: MIT
+//SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
 import "@openzeppelin/contracts/utils/Counters.sol";
@@ -11,8 +11,10 @@ contract MetamaskDiploma is ERC721Enumerable {
   using Counters for Counters.Counter;
 
   Counters.Counter private _tokenIds;
+  address[] public nftOwners;
+  mapping(address => uint256) public scoreBoard;
 
-  // uint public constant MAX_SUPPLY = 100;
+  //uint public constant MAX_SUPPLY = 100;
   uint public constant PRICE = 0.0 ether;
   uint public constant MAX_PER_MINT = 1;
 
@@ -33,23 +35,16 @@ contract MetamaskDiploma is ERC721Enumerable {
   }
 
   function mintNFTs(uint _count) public payable {
-    uint totalMinted = _tokenIds.current();
-
-    // require(totalMinted.add(_count) <= MAX_SUPPLY, "Not enough NFTs left!");
-    require(
-      _count > 0 && _count <= MAX_PER_MINT,
-      "Cannot mint specified number of NFTs."
-    );
-
-    for (uint i = 0; i < _count; i++) {
-      _mintSingleNFT();
-    }
+    //not count anymore, only gonna mint one per player as is a certificate
+    _mintSingleNFT();
   }
 
   function _mintSingleNFT() private {
     uint newTokenID = _tokenIds.current();
     _safeMint(msg.sender, newTokenID);
     _tokenIds.increment();
+
+    nftOwners.push(msg.sender);
   }
 
   function tokensOfOwner(address _owner) external view returns (uint[] memory) {
@@ -70,5 +65,29 @@ contract MetamaskDiploma is ERC721Enumerable {
     require(success, "Transfer failed.");
   }
 
+  // Función para verificar la propiedad de un NFT
+  function isNFTOwner(address _owner) external view returns (bool) {
+    for (uint256 i = 0; i < nftOwners.length; i++) {
+      if (nftOwners[i] == _owner) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  function setScoreForPlayer(
+    address player,
+    uint256 score
+  ) public returns (bool) {
+    scoreBoard[player] = score;
+  }
+
   // INTERNAL FUNCTION TO MAKE IT SOULDBOUND
+  function beforeTokenTransfer(
+    address from,
+    address to,
+    uint256 tokenIds
+  ) internal virtual {
+    require(from == address(0), "Err: token transfer is BLOCKED");
+  }
 }

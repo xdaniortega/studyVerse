@@ -6,7 +6,7 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/utils/math/SafeMath.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
 
-contract CbcatDiploma is ERC721Enumerable {
+contract PurchasedTicket is ERC721Enumerable {
   using SafeMath for uint256;
   using Counters for Counters.Counter;
 
@@ -15,12 +15,14 @@ contract CbcatDiploma is ERC721Enumerable {
   mapping(address => uint256) public scoreBoard;
 
   //uint public constant MAX_SUPPLY = 100;
-  uint public constant PRICE = 0.0 ether;
+  uint public constant PRICE = 0.0001 ether;
   uint public constant MAX_PER_MINT = 1;
 
   string public baseTokenURI;
 
-  constructor(string memory baseURI) ERC721("CbcatDiploma", "CbcatDiploma") {
+  constructor(
+    string memory baseURI
+  ) ERC721("PurchasedTicket", "PurchasedTicket") {
     setBaseURI(baseURI);
   }
 
@@ -32,8 +34,10 @@ contract CbcatDiploma is ERC721Enumerable {
     baseTokenURI = _baseTokenURI;
   }
 
-  function mintNFTs(uint _count) public payable {
-    //not count anymore, only gonna mint one per player as is a certificate
+  function mintNFTs(int count) public payable {
+    require(msg.value >= PRICE, "Insufficient funds");
+    require(_tokenIds.current() < MAX_PER_MINT, "Exceeded maximum per mint");
+
     _mintSingleNFT();
   }
 
@@ -80,7 +84,6 @@ contract CbcatDiploma is ERC721Enumerable {
     scoreBoard[player] = score;
   }
 
-  // INTERNAL FUNCTION TO MAKE IT SOULDBOUND
   // INTERNAL FUNCTION TO MAKE IT SOULDBOUND
   function beforeTokenTransfer(
     address from,
