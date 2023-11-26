@@ -18,6 +18,8 @@ public class GameManager : MonoBehaviour
 	public delegate void OnStateChanged(in eGameStates aNewState);
 	public event OnStateChanged mStateChanged;
 
+	private GameObject mBadgeDisplay;
+
 	private void Awake()
 	{
 		// If there is an instance, and it's not me, delete myself.
@@ -29,6 +31,7 @@ public class GameManager : MonoBehaviour
 		else
 		{
 			Instance = this;
+			DontDestroyOnLoad(this.gameObject);
 		}
 	}
 
@@ -39,6 +42,7 @@ public class GameManager : MonoBehaviour
 
 	public void ChangeGameState(in eGameStates aNewState)
 	{
+		mGameState = aNewState;
 		if(mStateChanged != null)
 		{
 			mStateChanged(aNewState);
@@ -49,5 +53,16 @@ public class GameManager : MonoBehaviour
     void Update()
     {
         
+    }
+
+	public void RetrieveBadges(GameObject aBadgeDisplay)
+    {
+		mBadgeDisplay = aBadgeDisplay;
+		_ = IMetaMask.RequestBadges();
+    }
+
+	public void LoadBadges(string badgesJson)
+    {
+		mBadgeDisplay.SetActive(true);
     }
 }

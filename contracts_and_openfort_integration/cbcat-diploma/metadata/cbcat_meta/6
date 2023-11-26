@@ -1,0 +1,19 @@
+{
+  "description": "By Studyverse",
+  "image": "https://ipfs.io/ipfs/QmYrLQE4fB1yVCeyyfWDUaZAT871eX4NV81opRcNP6emtr/CbcatBadge.png",
+  "name": "CBCAT GLOBAL CERTIFICATE",
+  "attributes": [
+    {
+      "trait_type": "GRADE",
+      "value": "10"
+    },
+    {
+      "COURSE": "COURSE COMPLETED"
+    },
+    {
+      "display_type": "date", 
+      "trait_type": "ISSUE DATE", 
+      "value": 28348740
+    }
+  ]
+}

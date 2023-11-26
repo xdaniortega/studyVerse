@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.AI;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class BH_PlayerMovement : MonoBehaviour
 {
@@ -10,9 +11,9 @@ public class BH_PlayerMovement : MonoBehaviour
 	public readonly string CLICK_WALK_TAG = "Walkeable";
 	public readonly string CLICK_BUILDING_TAG = "InterBuilding";
 	public readonly string BUILDING_DEST_POINT = "BuildingDestPoint";
-	private bool mEnableMovement;
+	public bool mEnableMovement;
 
-	public delegate void PathCompleted(in string aSceneToLoad);
+	public delegate void PathCompleted(string aSceneToLoad, in BH_PlayerMovement aPlayer);
 	PathCompleted OnPathCompleted;
 	private string mSceneToLoad;
 
@@ -22,7 +23,11 @@ public class BH_PlayerMovement : MonoBehaviour
 		navMeshAgent = GetComponent<NavMeshAgent>();
 		mEnableMovement = false;
 
-		GameManager.Instance.mStateChanged += OnStateChanged;
+		if(GameManager.Instance)
+        {
+			GameManager.Instance.mStateChanged += OnStateChanged;
+			mEnableMovement = GameManager.Instance.mGameState == GameManager.eGameStates.Logged;
+        }
 
 		// Ensure that NavMeshAgent is not null
 		if (navMeshAgent == null)
@@ -33,7 +38,10 @@ public class BH_PlayerMovement : MonoBehaviour
 
 	private void OnDestroy()
 	{
-		GameManager.Instance.mStateChanged -= OnStateChanged;
+		if (GameManager.Instance)
+		{
+			GameManager.Instance.mStateChanged -= OnStateChanged;
+		}
 	}
 
 	void Update()
@@ -58,9 +66,24 @@ public class BH_PlayerMovement : MonoBehaviour
 						BH_Building DestChildren = hit.transform.gameObject.GetComponent<BH_Building>();
 						if(DestChildren != null)
 						{
-							mSceneToLoad = DestChildren.mSceneToLoad;				
 							navMeshAgent.SetDestination(DestChildren.mDestinationPoint.transform.position);
-							OnPathCompleted = TestLog;
+
+							if(!string.IsNullOrEmpty(DestChildren.mSceneToLoad))
+                            {
+								mSceneToLoad = DestChildren.mSceneToLoad;
+								if(DestChildren.mPurchasePanel != null)
+                                {
+									OnPathCompleted = DestChildren.OnUnlockBuilding;
+                                }
+								else
+                                {
+									OnPathCompleted = DestChildren.OnPathLoadScene;
+                                }
+                            }
+							else if(DestChildren.mActiveGameObject != null)
+                            {
+								OnPathCompleted = DestChildren.OnPathActiveGameObject;
+                            }
 						}
 						else
 						{
@@ -72,7 +95,8 @@ public class BH_PlayerMovement : MonoBehaviour
 
 			if(OnPathCompleted != null && navMeshAgent.hasPath && navMeshAgent.remainingDistance <= navMeshAgent.stoppingDistance)
 			{
-				OnPathCompleted(mSceneToLoad);
+				OnPathCompleted(mSceneToLoad, this);
+				mEnableMovement = false;
 				OnPathCompleted = null;
 			}
 		}
@@ -89,10 +113,5 @@ public class BH_PlayerMovement : MonoBehaviour
 				mEnableMovement	= false;
 				break;
 		}
-	}
-
-	public void TestLog(in string aSceneToLoad)
-	{
-		SceneManager.LoadScene(aSceneToLoad, LoadSceneMode.Single);
 	}
 }

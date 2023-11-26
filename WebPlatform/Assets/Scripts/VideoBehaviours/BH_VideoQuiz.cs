@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -29,6 +28,10 @@ public class BH_VideoQuiz : BH_Video
 	public Button[] mButtons;
 	public TMP_Text mQuizTitle;
 
+	public Color CorrectColor;
+	public Color WrongColor;
+	public Color ButtonDefault;
+
 
 
 	// Start is called before the first frame update
@@ -40,8 +43,16 @@ public class BH_VideoQuiz : BH_Video
 		mAllMarkersCompleted = false;
     }
 
-	// Update is called once per frame
-	protected override void Update()
+    public void OnEnable()
+    {
+		for (int i = 0; i < mButtons.Length; ++i)
+		{
+			mButtons[i].GetComponent<Image>().color = ButtonDefault;
+		}
+	}
+
+    // Update is called once per frame
+    protected override void Update()
     {
 		base.Update();
 
@@ -51,35 +62,77 @@ public class BH_VideoQuiz : BH_Video
 			mVideoPlayer.Pause();
 
 			List<string> Answers = new List<string> { mQuizMarkers[mQuizMarkerID].mWrong1, mQuizMarkers[mQuizMarkerID].mWrong2, mQuizMarkers[mQuizMarkerID].mWrong3, mQuizMarkers[mQuizMarkerID].mCorrectAnswer };
-			Shuffle<string>(Answers);
-
 			mQuizTitle.text = mQuizMarkers[mQuizMarkerID].mQuestion;
 			mQuizPanel.SetActive(true);
+			mVideoDisplay.SetActive(false);
 			for (int i = 0; i < mButtons.Length; ++i)
 			{
 				mButtons[i].GetComponentInChildren<TMP_Text>().text = Answers[i];
 				string Test = Answers[i];
 				mButtons[i].onClick.AddListener(() => CheckAnswer(Test));
 			}
-
-			//todo: When the question is completed play and increment mQuizMarkerID
 		}
     }
 
 	public void CheckAnswer(string aInput)
 	{
 		Debug.Log("Answer: " + aInput);
-		AnswerCompleted();
+        foreach (Button button in mButtons)
+        {
+			button.interactable = false;
+        }
+		StartCoroutine(AnimateSelectedAnswer(aInput));
+	}
+
+	IEnumerator AnimateSelectedAnswer(string aAnswer)
+    {
+		Button aPressedButton = null;
+		Color colorToUse = WrongColor;
+		bool WasRight = false;
+        foreach (Button button in mButtons)
+        {
+			if(button.GetComponentInChildren<TMP_Text>().text == aAnswer)
+            {
+				aPressedButton = button;
+				if(aAnswer == mQuizMarkers[mQuizMarkerID].mCorrectAnswer)
+                {
+					WasRight = true;
+					colorToUse = CorrectColor;
+                }
+				break;
+			}
+        }
+
+		aPressedButton.GetComponent<Image>().color = colorToUse;
+		yield return new WaitForSecondsRealtime(3);
+
+		foreach (Button button in mButtons)
+		{
+			button.interactable = true;
+		}
+		if(!WasRight)
+        {
+			OnGoBack();
+			//CourseManager.ReduceScore();
+        }
+		else
+        {
+			AnswerCompleted();
+			//CourseManager.IncrementScore();
+		}
+
 	}
 
 	public void AnswerCompleted()
 	{
 		for (int i = 0; i < mButtons.Length; ++i)
 		{
+			mButtons[i].GetComponent<Image>().color = ButtonDefault;
 			mButtons[i].onClick.RemoveAllListeners();
 		}
 		mQuizPanel.SetActive(false);
 		mVideoPlayer.Play();
+		mVideoDisplay.SetActive(true);
 
 		mQuizMarkerID++;
 		if(mQuizMarkerID >= mQuizMarkers.Length)
@@ -99,5 +152,45 @@ public class BH_VideoQuiz : BH_Video
 			list[k] = list[n];
 			list[n] = value;
 		}
+	}
+
+	public void OnGoBack()
+	{
+		Debug.Log("Video went back 1");
+		mQuizPanel.SetActive(false);
+		mVideoDisplay.SetActive(true);
+
+		if (mQuizMarkerID == 0)
+		{
+			SetClipWithTime(0.0f);
+		}
+		else
+		{
+			SetClipWithTime(mQuizMarkers[mQuizMarkerID - 1].mStopTimestamp + 0.1f);
+		}
+	}
+
+	public void SetClipWithTime(float time)
+	{
+		StartCoroutine(SetTimeRoutine(time));
+	}
+
+
+	IEnumerator SetTimeRoutine(float time)
+	{
+		mAllMarkersCompleted = true;
+
+		mVideoPlayer.Prepare();
+		yield return new WaitUntil(() => mVideoPlayer.isPrepared);
+		yield return new WaitUntil(() => mVideoPlayer.canSetTime);
+
+		mVideoPlayer.Play();
+		yield return new WaitUntil(() => mVideoPlayer.isPlaying);
+		mVideoPlayer.time = time;
+		yield return new WaitUntil(() => mVideoPlayer.isPrepared);
+		yield return new WaitUntil(() => mVideoPlayer.isPlaying);
+		yield return new WaitForSecondsRealtime(1);
+
+		mAllMarkersCompleted = false;
 	}
 }
