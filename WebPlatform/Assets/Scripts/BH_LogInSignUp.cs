@@ -60,8 +60,8 @@ public class BH_LogInSignUp : MonoBehaviour
 
 	public void OnLoginPressed()
 	{
-		IMetaMask.SendTransactionIntent();
-		//StartCoroutine(CRLogin());
+		//IMetaMask.SendTransactionIntent();
+		StartCoroutine(CRLogin());
 	}
 
 	IEnumerator CRLogin()

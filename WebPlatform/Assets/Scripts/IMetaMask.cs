@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 class IMetaMask
 {
-    public static async Task SendTransactionIntent()
+    public static async Task SendTransactionIntent(string aContractID)
     {
         using (HttpClient client = new HttpClient())
         {
@@ -25,7 +25,7 @@ class IMetaMask
                 { "policy", "pol_bf498daf-3108-498f-925c-4cfe6a07f655" },
                 { "optimistic", "false" },
                 { "chainId", "421613" },
-                { "interactions[0][contract]", "con_24db99b9-b887-4bce-8469-65152a4550f5" },
+                { "interactions[0][contract]", aContractID},
                 { "interactions[0][functionName]", "mintNFTs" },
                 { "interactions[0][functionArgs][0]", "1" }
             };

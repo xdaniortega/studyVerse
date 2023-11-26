@@ -15,6 +15,7 @@ public class BH_Video : MonoBehaviour
 
 	public Button mPlayButton;
 	private BH_CourseVideoManager CourseManager;
+	public string mContractID;
 
 	public void SetCourseManager(in BH_CourseVideoManager aInputManager)
     {

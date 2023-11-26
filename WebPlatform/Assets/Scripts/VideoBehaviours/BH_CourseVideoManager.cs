@@ -78,12 +78,15 @@ public class BH_CourseVideoManager : MonoBehaviour
 
     public void ButtonNextStep()
     {
+        //Claim/mint
+        _ = IMetaMask.SendTransactionIntent(mCourseVideos[mActiveVideo].mContractID);
         NextVideo();
         mCompletedCoursePanel.SetActive(false);
     }
 
     public void FinishCourse()
     {
+        _ = IMetaMask.SendTransactionIntent("con_02d67b73-5190-471c-b8f5-a71490202876");
         SceneManager.LoadScene("SampleScene", LoadSceneMode.Single);
     }
 }
