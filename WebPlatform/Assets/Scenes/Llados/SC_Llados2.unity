@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028326, g: 0.22571333, b: 0.30692202, a: 1}
+  m_IndirectSpecularColor: {r: 0.17975262, g: 0.22506884, b: 0.30656964, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -97,7 +97,7 @@ LightmapSettings:
     m_ExportTrainingData: 0
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
-  m_LightingDataAsset: {fileID: 112000000, guid: a969ddf67a8124031beea928ef5c0c76,
+  m_LightingDataAsset: {fileID: 112000000, guid: d8128cf0250c140b69f56243e91f1dce,
     type: 2}
   m_LightingSettings: {fileID: 1456449162}
 --- !u!196 &4
@@ -1545,6 +1545,8 @@ MonoBehaviour:
   mInitialCoursePanel: {fileID: 0}
   mLeadboardPanel: {fileID: 0}
   mCompletedVideoText: {fileID: 0}
+  mBadgeDisplay: {fileID: 0}
+  mCourseScore: 0
 --- !u!1001 &862610955
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1907,6 +1909,10 @@ MonoBehaviour:
   mActiveGameObject: {fileID: 0}
   mMainCamera: {fileID: 1546513469}
   mSecondCamera: {fileID: 0}
+  mPurchasePanel: {fileID: 0}
+  mPurchaseBuildingButton: {fileID: 0}
+  mLockModel: {fileID: 0}
+  mLockMaterial: {fileID: 0}
 --- !u!208 &1125258828
 NavMeshObstacle:
   m_ObjectHideFlags: 0
@@ -2065,6 +2071,7 @@ MonoBehaviour:
     badge. Congratulations!
   mPlayButton: {fileID: 0}
   mContractID: con_6a9420a6-7311-43fb-8c13-93c3148bb977
+  mUnlockedBadge: {fileID: 0}
   mCodePanel: {fileID: 0}
   mCodeInputField: {fileID: 0}
   mCompileButton: {fileID: 0}
@@ -3024,6 +3031,7 @@ MonoBehaviour:
   mVideoFinishedDescription: Great! You have successfully passed the quiz.
   mPlayButton: {fileID: 0}
   mContractID: con_24db99b9-b887-4bce-8469-65152a4550f5
+  mUnlockedBadge: {fileID: 0}
   mQuizMarkers:
   - mStopTimestamp: 8
     mQuestion: What is Metamask?
@@ -3047,6 +3055,7 @@ MonoBehaviour:
   mQuizTitle: {fileID: 0}
   CorrectColor: {r: 0.39021894, g: 0.745283, b: 0.42685255, a: 1}
   WrongColor: {r: 0.74509805, g: 0.39215687, b: 0.4304099, a: 1}
+  ButtonDefault: {r: 0, g: 0, b: 0, a: 0}
 --- !u!1001 &1923051818
 PrefabInstance:
   m_ObjectHideFlags: 0

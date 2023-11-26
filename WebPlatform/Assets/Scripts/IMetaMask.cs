@@ -50,7 +50,7 @@ class IMetaMask
         using (HttpClient client = new HttpClient())
         {
             // Establecer la URL de la API
-            string apiUrl = "https://api.openfort.xyz/v1/players/GameManager.Instance.mPlayerID/inventory/nft?chainId=421613";
+            string apiUrl = "https://api.openfort.xyz/v1/players/" + GameManager.Instance.mPlayerID + "/inventory/nft?chainId=421613";
 
             // Establecer las cabeceras de la solicitud
             client.DefaultRequestHeaders.Add("Authorization", "Bearer sk_test_96701b7a-54ea-54c3-b772-c475bb1af2e8");
