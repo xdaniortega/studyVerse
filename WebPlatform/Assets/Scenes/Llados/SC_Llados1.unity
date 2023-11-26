@@ -9461,6 +9461,7 @@ MonoBehaviour:
   mQuizTitle: {fileID: 866971046}
   CorrectColor: {r: 0.39021894, g: 0.745283, b: 0.42685255, a: 1}
   WrongColor: {r: 0.74509805, g: 0.39215687, b: 0.4304099, a: 1}
+  ButtonDefault: {r: 0.22352941, g: 0.31764707, b: 0.4509804, a: 1}
 --- !u!1 &1643883112
 GameObject:
   m_ObjectHideFlags: 0

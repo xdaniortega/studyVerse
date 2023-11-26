@@ -30,6 +30,7 @@ public class BH_VideoQuiz : BH_Video
 
 	public Color CorrectColor;
 	public Color WrongColor;
+	public Color ButtonDefault;
 
 
 
@@ -42,8 +43,16 @@ public class BH_VideoQuiz : BH_Video
 		mAllMarkersCompleted = false;
     }
 
-	// Update is called once per frame
-	protected override void Update()
+    public void OnEnable()
+    {
+		for (int i = 0; i < mButtons.Length; ++i)
+		{
+			mButtons[i].GetComponent<Image>().color = ButtonDefault;
+		}
+	}
+
+    // Update is called once per frame
+    protected override void Update()
     {
 		base.Update();
 
@@ -94,12 +103,8 @@ public class BH_VideoQuiz : BH_Video
 			}
         }
 
-		Color oldColor = aPressedButton.GetComponent<Image>().color;
 		aPressedButton.GetComponent<Image>().color = colorToUse;
 		yield return new WaitForSecondsRealtime(3);
-		aPressedButton.GetComponent<Image>().color = oldColor;
-		yield return new WaitForSecondsRealtime(3);
-		yield return new WaitForEndOfFrame();
 
 		foreach (Button button in mButtons)
 		{
@@ -120,6 +125,7 @@ public class BH_VideoQuiz : BH_Video
 	{
 		for (int i = 0; i < mButtons.Length; ++i)
 		{
+			mButtons[i].GetComponent<Image>().color = ButtonDefault;
 			mButtons[i].onClick.RemoveAllListeners();
 		}
 		mQuizPanel.SetActive(false);
