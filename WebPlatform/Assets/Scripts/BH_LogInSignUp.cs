@@ -98,10 +98,6 @@ public class BH_LogInSignUp : MonoBehaviour
 			{
 				Debug.Log("Request complete! Response: " + www.downloadHandler.text);
 				Debug.Log("Login completed");
-
-				sLoginData Data = JsonUtility.FromJson<sLoginData>(www.downloadHandler.text);
-				GameManager.Instance.mPlayerID = Data.playerId;
-				Debug.Log(GameManager.Instance.mPlayerID);
 				GameManager.Instance.ChangeGameState(GameManager.eGameStates.Logged);
 			}
 		}

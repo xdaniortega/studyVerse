@@ -18,8 +18,6 @@ public class GameManager : MonoBehaviour
 	public delegate void OnStateChanged(in eGameStates aNewState);
 	public event OnStateChanged mStateChanged;
 
-	public string mPlayerID;
-
 	private GameObject mBadgeDisplay;
 
 	private void Awake()
@@ -33,7 +31,6 @@ public class GameManager : MonoBehaviour
 		else
 		{
 			Instance = this;
-			mPlayerID = string.Empty;
 			DontDestroyOnLoad(this.gameObject);
 		}
 	}
