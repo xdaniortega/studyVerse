@@ -6,6 +6,12 @@ using TMPro;
 
 public class BH_LogInSignUp : MonoBehaviour
 {
+
+	struct sLoginData
+    {
+		public string playerId;
+		public string token;
+    }
 	public Material mBlurMaterial;
 	public float mBlurInitValue;
 
@@ -92,7 +98,10 @@ public class BH_LogInSignUp : MonoBehaviour
 			{
 				Debug.Log("Request complete! Response: " + www.downloadHandler.text);
 				Debug.Log("Login completed");
-				//GameManager.Instance.mPlayerID = 
+
+				sLoginData Data = JsonUtility.FromJson<sLoginData>(www.downloadHandler.text);
+				GameManager.Instance.mPlayerID = Data.playerId;
+				Debug.Log(GameManager.Instance.mPlayerID);
 				GameManager.Instance.ChangeGameState(GameManager.eGameStates.Logged);
 			}
 		}

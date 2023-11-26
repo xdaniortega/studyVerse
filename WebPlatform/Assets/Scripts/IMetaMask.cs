@@ -21,7 +21,7 @@ class IMetaMask
             // Configurar los datos del formulario
             var formData = new Dictionary<string, string>
             {
-                { "player", "pla_ed6e5eb0-9036-43a6-b92b-e49c878e23eb" },
+                { "player", GameManager.Instance.mPlayerID},
                 { "policy", "pol_bf498daf-3108-498f-925c-4cfe6a07f655" },
                 { "optimistic", "false" },
                 { "chainId", "421613" },
@@ -50,7 +50,7 @@ class IMetaMask
         using (HttpClient client = new HttpClient())
         {
             // Establecer la URL de la API
-            string apiUrl = "https://api.openfort.xyz/v1/players/pla_ed6e5eb0-9036-43a6-b92b-e49c878e23eb/inventory/nft?chainId=421613";
+            string apiUrl = "https://api.openfort.xyz/v1/players/GameManager.Instance.mPlayerID/inventory/nft?chainId=421613";
 
             // Establecer las cabeceras de la solicitud
             client.DefaultRequestHeaders.Add("Authorization", "Bearer sk_test_96701b7a-54ea-54c3-b772-c475bb1af2e8");
