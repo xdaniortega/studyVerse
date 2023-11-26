@@ -53,8 +53,6 @@ public class BH_VideoQuiz : BH_Video
 			mVideoPlayer.Pause();
 
 			List<string> Answers = new List<string> { mQuizMarkers[mQuizMarkerID].mWrong1, mQuizMarkers[mQuizMarkerID].mWrong2, mQuizMarkers[mQuizMarkerID].mWrong3, mQuizMarkers[mQuizMarkerID].mCorrectAnswer };
-			Shuffle<string>(Answers);
-
 			mQuizTitle.text = mQuizMarkers[mQuizMarkerID].mQuestion;
 			mQuizPanel.SetActive(true);
 			mVideoDisplay.SetActive(false);
@@ -70,6 +68,10 @@ public class BH_VideoQuiz : BH_Video
 	public void CheckAnswer(string aInput)
 	{
 		Debug.Log("Answer: " + aInput);
+        foreach (Button button in mButtons)
+        {
+			button.interactable = false;
+        }
 		StartCoroutine(AnimateSelectedAnswer(aInput));
 	}
 
@@ -77,6 +79,7 @@ public class BH_VideoQuiz : BH_Video
     {
 		Button aPressedButton = null;
 		Color colorToUse = WrongColor;
+		bool WasRight = false;
         foreach (Button button in mButtons)
         {
 			if(button.GetComponentInChildren<TMP_Text>().text == aAnswer)
@@ -84,19 +87,25 @@ public class BH_VideoQuiz : BH_Video
 				aPressedButton = button;
 				if(aAnswer == mQuizMarkers[mQuizMarkerID].mCorrectAnswer)
                 {
+					WasRight = true;
 					colorToUse = CorrectColor;
                 }
 				break;
 			}
         }
 
-		Image buttonImage = aPressedButton.GetComponent<Image>();
-		Color oldColor = buttonImage.color;
+		Color oldColor = aPressedButton.GetComponent<Image>().color;
 		aPressedButton.GetComponent<Image>().color = colorToUse;
 		yield return new WaitForSecondsRealtime(3);
 		aPressedButton.GetComponent<Image>().color = oldColor;
+		yield return new WaitForSecondsRealtime(3);
+		yield return new WaitForEndOfFrame();
 
-		if(colorToUse == WrongColor)
+		foreach (Button button in mButtons)
+		{
+			button.interactable = true;
+		}
+		if(!WasRight)
         {
 			OnGoBack();
         }
@@ -104,6 +113,7 @@ public class BH_VideoQuiz : BH_Video
         {
 			AnswerCompleted();
 		}
+
 	}
 
 	public void AnswerCompleted()
