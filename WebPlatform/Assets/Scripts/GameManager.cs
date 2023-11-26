@@ -20,6 +20,8 @@ public class GameManager : MonoBehaviour
 
 	public string mPlayerID;
 
+	private GameObject mBadgeDisplay;
+
 	private void Awake()
 	{
 		// If there is an instance, and it's not me, delete myself.
@@ -54,5 +56,16 @@ public class GameManager : MonoBehaviour
     void Update()
     {
         
+    }
+
+	public void RetrieveBadges(GameObject aBadgeDisplay)
+    {
+		mBadgeDisplay = aBadgeDisplay;
+		_ = IMetaMask.RequestBadges();
+    }
+
+	public void LoadBadges(string badgesJson)
+    {
+		mBadgeDisplay.SetActive(true);
     }
 }

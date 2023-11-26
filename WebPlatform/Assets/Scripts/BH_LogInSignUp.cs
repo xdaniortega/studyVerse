@@ -13,6 +13,8 @@ public class BH_LogInSignUp : MonoBehaviour
 	public TMP_InputField mEmailInput;
 	public TMP_InputField mPasswordInput;
 
+	public GameObject mABadgeDisplay;
+
 	public void OnStateChanged(in GameManager.eGameStates aNewState)
 	{
 		switch (aNewState)
@@ -33,6 +35,12 @@ public class BH_LogInSignUp : MonoBehaviour
 	// Start is called before the first frame update
 	void Awake()
     {
+		if(GameManager.Instance.mGameState == GameManager.eGameStates.Logged)
+        {
+			GameManager.Instance.RetrieveBadges(mABadgeDisplay);
+		}
+
+
 		if(GameManager.Instance.mGameState == GameManager.eGameStates.Initializing /*|| string.IsNullOrEmpty(GameManager.Instance.mPlayerID)*/)
         {
 			GameManager.Instance.mStateChanged += OnStateChanged;

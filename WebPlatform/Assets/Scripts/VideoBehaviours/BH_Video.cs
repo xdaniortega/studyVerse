@@ -14,8 +14,10 @@ public class BH_Video : MonoBehaviour
 	public string mVideoFinishedDescription;	
 
 	public Button mPlayButton;
-	private BH_CourseVideoManager CourseManager;
+	protected BH_CourseVideoManager CourseManager;
 	public string mContractID;
+
+	public Sprite mUnlockedBadge;
 
 	public void SetCourseManager(in BH_CourseVideoManager aInputManager)
     {

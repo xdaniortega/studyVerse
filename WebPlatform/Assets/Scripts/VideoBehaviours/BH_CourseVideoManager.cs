@@ -18,11 +18,15 @@ public class BH_CourseVideoManager : MonoBehaviour
     public GameObject mInitialCoursePanel;
     public GameObject mLeadboardPanel;
     public TMPro.TMP_Text mCompletedVideoText;
+    public Image mBadgeDisplay;
     //public TMPro.TMP_Text mNextVideoText;
+
+    public uint mCourseScore;
 
     // Start is called before the first frame update
     void Start()
     {
+        mCourseScore = 0;
         foreach (BH_Video video in mCourseVideos)
         {
             video.SetCourseManager(this);
@@ -72,6 +76,7 @@ public class BH_CourseVideoManager : MonoBehaviour
 
         //Show next video screen
         mCompletedCoursePanel.SetActive(true);
+        mBadgeDisplay.sprite = mCourseVideos[mActiveVideo].mUnlockedBadge;
         mCompletedVideoText.text = mCourseVideos[mActiveVideo].mVideoFinishedDescription;
         //NextVideo();
     }
@@ -86,7 +91,7 @@ public class BH_CourseVideoManager : MonoBehaviour
 
     public void FinishCourse()
     {
-        _ = IMetaMask.SendTransactionIntent("con_02d67b73-5190-471c-b8f5-a71490202876");
+        _ = IMetaMask.SendTransactionIntent("con_6a9420a6-7311-43fb-8c13-93c3148bb977");
         SceneManager.LoadScene("SampleScene", LoadSceneMode.Single);
     }
 }

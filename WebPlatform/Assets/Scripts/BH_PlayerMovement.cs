@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.AI;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class BH_PlayerMovement : MonoBehaviour
 {
@@ -10,9 +11,9 @@ public class BH_PlayerMovement : MonoBehaviour
 	public readonly string CLICK_WALK_TAG = "Walkeable";
 	public readonly string CLICK_BUILDING_TAG = "InterBuilding";
 	public readonly string BUILDING_DEST_POINT = "BuildingDestPoint";
-	private bool mEnableMovement;
+	public bool mEnableMovement;
 
-	public delegate void PathCompleted(in string aSceneToLoad);
+	public delegate void PathCompleted(string aSceneToLoad, in BH_PlayerMovement aPlayer);
 	PathCompleted OnPathCompleted;
 	private string mSceneToLoad;
 
@@ -70,7 +71,14 @@ public class BH_PlayerMovement : MonoBehaviour
 							if(!string.IsNullOrEmpty(DestChildren.mSceneToLoad))
                             {
 								mSceneToLoad = DestChildren.mSceneToLoad;
-								OnPathCompleted = DestChildren.OnPathLoadScene;
+								if(DestChildren.mPurchasePanel != null)
+                                {
+									OnPathCompleted = DestChildren.OnUnlockBuilding;
+                                }
+								else
+                                {
+									OnPathCompleted = DestChildren.OnPathLoadScene;
+                                }
                             }
 							else if(DestChildren.mActiveGameObject != null)
                             {
@@ -87,7 +95,7 @@ public class BH_PlayerMovement : MonoBehaviour
 
 			if(OnPathCompleted != null && navMeshAgent.hasPath && navMeshAgent.remainingDistance <= navMeshAgent.stoppingDistance)
 			{
-				OnPathCompleted(mSceneToLoad);
+				OnPathCompleted(mSceneToLoad, this);
 				mEnableMovement = false;
 				OnPathCompleted = null;
 			}

@@ -113,10 +113,12 @@ public class BH_VideoQuiz : BH_Video
 		if(!WasRight)
         {
 			OnGoBack();
+			//CourseManager.ReduceScore();
         }
 		else
         {
 			AnswerCompleted();
+			//CourseManager.IncrementScore();
 		}
 
 	}

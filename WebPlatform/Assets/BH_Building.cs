@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class BH_Building : MonoBehaviour
 {
@@ -13,6 +14,13 @@ public class BH_Building : MonoBehaviour
 
     public Camera mMainCamera;
     public Camera mSecondCamera;
+
+    public GameObject mPurchasePanel;
+
+    private BH_PlayerMovement mPlayer;
+    public Button mPurchaseBuildingButton;
+    public GameObject mLockModel;
+    public Material mLockMaterial;
 
     // Start is called before the first frame update
     void Start()
@@ -34,12 +42,12 @@ public class BH_Building : MonoBehaviour
         
     }
 
-    public void OnPathLoadScene(in string aSceneToLoad)
+    public void OnPathLoadScene(string aSceneToLoad, in BH_PlayerMovement aPlayer)
 	{
         SceneManager.LoadScene(aSceneToLoad, LoadSceneMode.Single);
 	}
 
-    public void OnPathActiveGameObject(in string aSceneToLoad)
+    public void OnPathActiveGameObject(string aSceneToLoad, in BH_PlayerMovement aPlayer)
     {
         if(mActiveGameObject != null)
         {
@@ -48,5 +56,23 @@ public class BH_Building : MonoBehaviour
 
         mMainCamera.gameObject.SetActive(false);
         mSecondCamera.gameObject.SetActive(true);
+    }
+
+    public void OnUnlockBuilding(string aSceneToLoad, in BH_PlayerMovement aPlayer)
+    {
+        aPlayer.mEnableMovement = false;
+        mPlayer = aPlayer;
+        mPurchasePanel.SetActive(true);
+        mPurchaseBuildingButton.onClick.AddListener(() => Unlock(aSceneToLoad));
+    }
+
+    public void Unlock(string aUnlock)
+    {
+        mPurchasePanel.SetActive(false);
+        mPurchaseBuildingButton.onClick.RemoveAllListeners();
+        mLockModel.SetActive(false);
+        mLockMaterial.SetInteger("IsLocked", 0);
+        SceneManager.LoadSceneAsync(aUnlock, LoadSceneMode.Single);
+        //mPlayer.mEnableMovement = true;
     }
 }
